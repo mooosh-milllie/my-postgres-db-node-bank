@@ -62,7 +62,7 @@ router.post('/check', async (req, res, next) => {
     let emailSubject = 'Your Verification link';
     let emailBody = `
     <h3>Let's Finish this process, click the link below to complete the online banking enrollment process</h3>
-    <a href='http://localhost:3000/enrollment/create-login/${token}' target='_blank'>click here</a>
+    <a href='https://node-bank-frontend.herokuapp.com/enrollment/create-login/${token}' target='_blank'>click here</a>
     <h4>Thank You for choosing Node Bank</h4>
     `;
     let emailReceiver = registeredUser.email;

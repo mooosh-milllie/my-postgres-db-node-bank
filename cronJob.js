@@ -8,10 +8,9 @@ const path = require('path');
 const valid = cron.validate('0 0 * * *');
 console.log(valid);
 // const task = cron.schedule('18 18 9 1-12 1-6', async() => {
-const task = cron.schedule('55 15 12 * *', async() => {
+const task = cron.schedule('0 7 1 * *', async() => {
   let TODAY = new Date();
   TODAY.setUTCHours(0,0,0,0);
-  const YEAR = TODAY.getFullYear();
   const MONTH = TODAY.getMonth();
   const MONTH_ARRAY = ['JANUARY', 'FEBUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
   console.log('Today',TODAY.toISOString());
@@ -21,8 +20,6 @@ const task = cron.schedule('55 15 12 * *', async() => {
     attributes: ['id', 'email', 'firstName']
   })
   // console.log(getActiveUsers);
-  const pathToFile = path.join(__dirname, '.', 'error_log', '/', 'errorFile.txt');
-  console.log(pathToFile);
   getActiveUsers.map(async (activeUsers) => {
     console.log(activeUsers.email);
     let emailSubject = 'New Month';
@@ -34,7 +31,7 @@ const task = cron.schedule('55 15 12 * *', async() => {
     `;
     let emailReceiver = activeUsers.email;
     try {
-      await transporter.sendMail({...mailOptions(emailReceiver, emailSubject, emailBody, 'html', pathToFile)});
+      await transporter.sendMail({...mailOptions(emailReceiver, emailSubject, emailBody, 'html')});
       console.log('DONE!!!')
     } catch (error) {
       console.log(error)
