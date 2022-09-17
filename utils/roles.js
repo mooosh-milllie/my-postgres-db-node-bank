@@ -1,0 +1,7 @@
+const ROLES_LIST = {
+  SUPER_ADMIN: 578372673,
+  ADMIN: 390932673,
+  USER: 200326738
+}
+
+module.exports = {ROLES_LIST};
