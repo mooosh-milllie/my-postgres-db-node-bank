@@ -7,7 +7,7 @@ const { mailOptions, transporter } = require('../utils/emailHelpers');
 const { Op } = require('sequelize');
 const sequelize = require('../utils/db');
 const { saveFile, removeFile } = require('../helpers/fileSystemHelpers');
-
+const path = require('path');
 
 
 router.post('/',  async (req, res, next) => {
@@ -43,8 +43,8 @@ router.post('/',  async (req, res, next) => {
     let data = ID_CARD.idCard.replace(/^data:image\/\w+;base64,/, "");
     let buf = Buffer.from(data, 'base64');
     let file = ID_CARD.name
-    let path = `./img/${file}`
-    let savedFile = await saveFile(path, buf, next);
+    let filePath = path.join(__dirname, '..', 'img', '/', file);
+    let savedFile = await saveFile(filePath, buf, next);
     if (!savedFile) {
       res.status(500).send({success: false, message: 'FILE ERROR'})
     }
