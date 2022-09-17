@@ -40,8 +40,8 @@ router.post('/',  async (req, res, next) => {
       }
     }
     const ID_CARD = validationResult.identityCard;
-    let data = ID_CARD.idCard.replace(/^data:image\/\w+;base64,/, "");
-    let buf = Buffer.from(data, 'base64');
+    // let data = ID_CARD.idCard.replace(/^data:image\/\w+;base64,/, "");
+    // let buf = Buffer.from(data, 'base64');
     // let file = ID_CARD.name
     // let filePath = path.join(__dirname, '..', 'img', '/', file);
     // let savedFile = await saveFile(filePath, buf, next);
@@ -49,32 +49,10 @@ router.post('/',  async (req, res, next) => {
     //   res.status(500).send({success: false, message: 'FILE ERROR'})
     // }
 
-    // const imageUrl = await cloudinary.uploader.upload(filePath, 
-    // { width: 400, height: 300, crop: "fill" });
+    const imageUrl = await cloudinary.uploader.upload(ID_CARD, 
+    { width: 400, height: 300, crop: "fill" });
 
-    let uploadFromBuffer = (buf) => {
-
-      return new Promise((resolve, reject) => {
-   
-        let cld_upload_stream = cloudinary.v2.uploader.upload_stream(
-         {
-           folder: "identity-cards"
-         },
-         (error, result) => {
-   
-           if (result) {
-             resolve(result);
-           } else {
-             reject(error);
-            }
-          }
-        );
-        streamifier.createReadStream(buf).pipe(cld_upload_stream);
-      });
-   };
-   
-   let imageUrl = await uploadFromBuffer(buf);
-
+    
     // // While loop to handle registeration of of new customers, until the account number generated is unique
     while (true) {
       // Generate account Number of 10 digts
