@@ -85,7 +85,7 @@ router.post('/',  async (req, res, next) => {
             let emailBody = `
             <h1>Welcome to NodeBank</h1>
             <p> Your Account registration was successful, \n your account number is ${newCustomer.accountNumber} and pin is ${newCustomer.pin}</p>
-            <p>Visit http://localhost:3000/enrollment/home to enroll for online banking, and bank on the go.</p>`;
+            <p>Visit https://node-bank-frontend.herokuapp.com/enrollment to enroll for online banking, and bank on the go.</p>`;
             let emailReceiver = newCustomer.email;
             await transporter.sendMail({...mailOptions(emailReceiver, emailSubject, emailBody, 'html')});
             break;

@@ -30,12 +30,6 @@ function mailOptions(to, subject, body, bodyType, path ) {
     to: to,
     subject: subject,
     html: body,
-    attachments: [
-      {
-        filename: 'errorFile.txt',
-        path: path
-      }
-    ],
   }
  }
 }
