@@ -63,15 +63,15 @@ const enrollmentVerifySchema = yup.object({
   lastName: yup.string().required(),
   email: yup.string().email().required().test("is-valid", (message) => `${message.path} is invalid`, 
   (value) => value ? validator.isEmail(value) : new yup.ValidationError("Invalid value")),
-  pin: yup.number().required().test(
+  pin: yup.string().required().test(
     "maxDigits",
     "number field must have minimum of 4 and maximum 6 digits",
-    (pin) => pin.toString().length > 3 && pin.toString().length < 7
+    (pin) => pin.length > 3 && pin.toString().length < 7
   ),
-  lastFourDigitSSN: yup.number().required().test('isValidPin', 'Invalid Pin Length', 
+  lastFourDigitSSN: yup.string().required().test('isValidSSN', 'Invalid SSN Length', 
   (lastFourDigitSSN) => {
     const ALLOWED_NUM_LENGTH = 4;
-    return lastFourDigitSSN.toString().length === ALLOWED_NUM_LENGTH;
+    return lastFourDigitSSN.length === ALLOWED_NUM_LENGTH;
   })
 })
 
