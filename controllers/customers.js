@@ -2,7 +2,6 @@ const router = require('express').Router();
 const {Customers, AccountHistory, PendingTransactions} = require('../models/index');
 const {changePasswordSchema, updateProfilePicture} = require('../helpers/formValidator');
 const { cloudinary } = require('../utils/cloudinary');
-const { saveFile, removeFile } = require('../helpers/fileSystemHelpers');
 
 
 router.get('/home', async(req, res, next) => {
@@ -111,21 +110,11 @@ router.put('/change-password', async(req, res, next) => {
 
 router.put('/update-profile-picture', async(req, res, next) => {
   const id = req.refId;
-  const validationResult = await updateProfilePicture.validate(req.body.identityCard);
-  console.log(validationResult);
-  const ID_CARD = validationResult.profilePicture;
-  let data = ID_CARD.idCard.replace(/^data:image\/\w+;base64,/, "");
-  let buf = Buffer.from(data, 'base64');
-  let file = ID_CARD.name
-  let path = `./img/${file}`
+  const validationResult = await updateProfilePicture.validate(req.body.profilePicture);
+  const PROFILE_PIC = validationResult.profilePicture;
 
   try {
-    let savedFile = await saveFile(path, buf, next);
-    if (!savedFile) {
-      res.status(500).send({success: false, message: 'FILE ERROR'})
-    }
-
-    const imageUrl = await cloudinary.uploader.upload(path, 
+    const imageUrl = await cloudinary.uploader.upload(PROFILE_PIC.avatar, 
     { width: 250, height: 250, crop: "fill" });
 
     const currentCustomer = await Customers.update({profilePicture: imageUrl.secure_url}, {
@@ -134,7 +123,6 @@ router.put('/update-profile-picture', async(req, res, next) => {
       }
     });
     if (currentCustomer) {
-      await removeFile(path)
       return res.status(200).send({success: true, message: 'IMAGE UPLOADED'});
     }
   } catch (error) {
