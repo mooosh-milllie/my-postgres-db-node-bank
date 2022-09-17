@@ -39,7 +39,7 @@ router.post('/',  async (req, res, next) => {
         return res.status(400).send({success: false, message: 'ACCOUNT ALREADY EXISTS'})
       }
     }
-    const ID_CARD = validationResult.identityCard;
+    const ID_CARD = validationResult.identityCard.idCard;
     // let data = ID_CARD.idCard.replace(/^data:image\/\w+;base64,/, "");
     // let buf = Buffer.from(data, 'base64');
     // let file = ID_CARD.name
